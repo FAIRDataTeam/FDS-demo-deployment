@@ -1,0 +1,23 @@
+dispatcher:
+  polling:
+    timeout: PT2M
+  dispatch:
+    # URL to root endpoint of TrainHandler API (for callbacks)
+    root: http://localhost:8080
+    # Can set to lower value for faster processing
+    initDelay: PT30S
+    interval: PT30S
+
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres/train_handler
+    username: postgres
+    password: password
+
+keycloak:
+  enabled: true
+  realm: fdt
+  resource: trainhandler-api
+  auth-server-url: https://auth.fairdatapoint.org
+  public-client: true
+  bearer-only: true
