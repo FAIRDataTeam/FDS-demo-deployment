@@ -8,12 +8,11 @@ services:
     ports:
       - 127.0.0.1:3000:3000
     environment:
-      API_URL: http://localhost:8080
-      PORT: 3000
-      NUXT_PUBLIC_API_URL: https://auth.fairdatatrain.org
+      NUXT_PUBLIC_API_URL: https://api.handler.fairdatatrain.org
       NUXT_PUBLIC_KEYCLOAK_URL: https://auth.fairdatatrain.org
       NUXT_PUBLIC_KEYCLOAK_REALM: fdt
       NUXT_PUBLIC_KEYCLOAK_CLIENT_ID: trainhandler-client
+     # NUXT_PUBLIC_KEYCLOAK_DISABLED: true
 
   trainhandler-server:
     image: fairdata/trainhandler-server:develop

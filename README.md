@@ -15,3 +15,4 @@
 - Use HTTPS proxy for the exposed services (four)
 - Set secure passwords for `keycloak` and `postgres` (again `docker-compose.yml`, and both `application.yml` files accordingly)
 - Configure `fds/application.yml` to connect to some triple store / repository with data to be queried
+- You can use `data.sql` to seed some basic data for demonstration in the Train Handler
