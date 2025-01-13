@@ -1,12 +1,11 @@
-version: '3'
-
+name: fds-local
 services:
-
   trainhandler-client:
     image: fairdata/trainhandler-client:develop
     restart: unless-stopped
     ports:
-      - 127.0.0.1:3000:3000
+      # bound to 127.0.0.1 (localhost) to prevent exposing to public internet
+      - "127.0.0.1:3000:3000"
     environment:
       NUXT_PUBLIC_API_URL: http://localhost:8080
       NUXT_PUBLIC_KEYCLOAK_URL: http://localhost:8085
@@ -18,7 +17,7 @@ services:
     image: fairdata/trainhandler-server:develop
     restart: unless-stopped
     ports:
-      - 127.0.0.1:8080:8080
+      - "127.0.0.1:8080:8080"
     depends_on:
       - postgres
     volumes:
@@ -28,7 +27,7 @@ services:
     image: fairdata/fairdatastation:develop
     restart: unless-stopped
     ports:
-      - 127.0.0.1:8081:8080
+      - "127.0.0.1:8081:8080"
     depends_on:
       - postgres
     volumes:
@@ -38,7 +37,7 @@ services:
     image: quay.io/keycloak/keycloak:19.0.3
     command: start
     ports:
-      - 127.0.0.1:8085:8085
+      - "127.0.0.1:8085:8085"
     depends_on:
       - postgres
     environment:
@@ -63,11 +62,14 @@ services:
   postgres:
     image: postgres:15.1
     ports:
-      - 127.0.0.1:15432:5432
+      - "127.0.0.1:54321:5432"
     volumes:
-      - ./postgres/init.sql:/docker-entrypoint-initdb.d/00-init.sql
-      - ./postgres/data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/00-init.sql
+      - postgresdata:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+
+volumes:
+  postgresdata:
