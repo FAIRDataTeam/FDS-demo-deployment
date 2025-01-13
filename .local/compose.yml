@@ -8,8 +8,8 @@ services:
     ports:
       - 127.0.0.1:3000:3000
     environment:
-      NUXT_PUBLIC_API_URL: https://api.handler.fairdatatrain.org
-      NUXT_PUBLIC_KEYCLOAK_URL: https://auth.fairdatatrain.org
+      NUXT_PUBLIC_API_URL: http://localhost:8080
+      NUXT_PUBLIC_KEYCLOAK_URL: http://localhost:8085
       NUXT_PUBLIC_KEYCLOAK_REALM: fdt
       NUXT_PUBLIC_KEYCLOAK_CLIENT_ID: trainhandler-client
      # NUXT_PUBLIC_KEYCLOAK_DISABLED: true
@@ -22,7 +22,7 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./trainhandler/application.yml:/app/application.yml:ro
+      - ./trainhandler.application.yml:/app/application.yml:ro
 
   fds:
     image: fairdata/fairdatastation:develop
@@ -32,7 +32,7 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./fds/application.yml:/app/application.yml:ro
+      - ./fds.application.yml:/app/application.yml:ro
 
   keycloak:
     image: quay.io/keycloak/keycloak:19.0.3
@@ -52,7 +52,7 @@ services:
       KC_DB_URL_PORT: 5432
       KC_DB_USERNAME: postgres
       KC_DB_PASSWORD: password
-      KC_HOSTNAME: auth.fairdatatrain.org
+      KC_HOSTNAME: localhost:8085
       PROXY_ADDRESS_FORWARDING: true
       KC_PROXY: edge
       KC_HTTP_ENABLED: true

@@ -3,7 +3,7 @@ dispatcher:
     timeout: PT2M
   dispatch:
     # URL to root endpoint of TrainHandler API (for callbacks)
-    root: https://api.handler.fairdatatrain.org
+    root: http://localhost:8080
     # Can set to lower value for faster processing
     initDelay: PT30S
     interval: PT30S
@@ -18,6 +18,6 @@ keycloak:
   enabled: true
   realm: fdt
   resource: trainhandler-api
-  auth-server-url: https://auth.fairdatatrain.org
+  auth-server-url: http://keycloak:8085
   public-client: true
   bearer-only: true
