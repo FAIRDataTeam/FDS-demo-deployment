@@ -37,7 +37,8 @@ services:
 
   keycloak:
     # https://www.keycloak.org/getting-started/getting-started-docker
-    image: quay.io/keycloak/keycloak:26.0
+    # todo: latest image is keycloak 26, but 25 and 26 cause a redirect loop, for some reason...
+    image: quay.io/keycloak/keycloak:24.0
     # beware: do not use `start-dev` in production (use `start` instead)
     command:
       - start-dev
@@ -58,7 +59,8 @@ services:
       KC_DB_URL_PORT: 5432
       KC_DB_USERNAME: postgres
       KC_DB_PASSWORD: password
-      KC_HOSTNAME: http://localhost:8085
+      # todo: for keycloak 25 and up, KC_HOSTNAME should be http://localhost:8085
+      KC_HOSTNAME: localhost:8085
       PROXY_ADDRESS_FORWARDING: true
       KC_PROXY: edge
       KC_HTTP_ENABLED: true
