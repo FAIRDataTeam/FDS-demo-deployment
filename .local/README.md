@@ -10,10 +10,12 @@ Run as follows (from `.local` dir):
 docker compose up -d
 ```
 
-The keycloak server is configured automatically based on `realm.json`.
+The keycloak server is configured automatically based on `realm.json` (also see [keycloak examples] and [api spec]).
 
 Now we can visit http://localhost:3000 and log in using the `test` user (username: `test`, password: `test`).
 
+Note that keycloak may take some time to initialize, so in case of errors, check if it is ready.
+A docker compose healthcheck would be convenient here, but that is slightly complicated by [restrictions] in the default keycloak image.
 
 ## Manual configuration of keycloak
 
@@ -34,3 +36,6 @@ Do make sure the values match those defined in the compose file.
 Note that it is also possible to disable keycloak by setting `NUXT_PUBLIC_KEYCLOAK_DISABLED: false` in the compose file.
 
 [configure keycloak]: https://www.keycloak.org/docs/latest/authorization_services/index.html#_resource_server_overview
+[restrictions]: https://www.keycloak.org/server/health#_healthcheck
+[keycloak examples]: https://github.com/keycloak/keycloak-quickstarts/tree/latest/spring/rest-authz-resource-server
+[api spec]: https://www.keycloak.org/docs-api/26.0.8/rest-api//index.html#models
