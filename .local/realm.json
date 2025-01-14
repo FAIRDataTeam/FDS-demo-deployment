@@ -4,6 +4,9 @@
   "users": [
     {
       "username": "test",
+      "email": "a.test@example.org",
+      "firstName": "a",
+      "lastName": "test",
       "enabled": true,
       "credentials": [
         {
