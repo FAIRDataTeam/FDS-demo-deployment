@@ -68,8 +68,7 @@ services:
       KC_DB_PASSWORD: password
       # todo: for keycloak 25 and up, KC_HOSTNAME should be http://localhost:8085
       KC_HOSTNAME: localhost:8085
-      PROXY_ADDRESS_FORWARDING: true
-      KC_PROXY: edge
+      KC_PROXY_HEADERS: xforwarded  # or `forwarded|xforwarded`?
       KC_HTTP_ENABLED: true
       KC_HTTP_PORT: 8085
       KC_HOSTNAME_STRICT_HTTPS: false
