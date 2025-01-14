@@ -6,6 +6,8 @@ services:
     ports:
       # bound to 127.0.0.1 (localhost) to prevent exposing to public internet
       - "127.0.0.1:3000:3000"
+    depends_on:
+      - trainhandler-server
     environment:
       NUXT_PUBLIC_API_URL: http://localhost:8080
       NUXT_PUBLIC_KEYCLOAK_URL: http://localhost:8085
@@ -19,6 +21,9 @@ services:
     ports:
       - "127.0.0.1:8080:8080"
     depends_on:
+      keycloak:
+        # service_healthy would be preferable, but is complicated because default keycloak image has no curl
+        condition: service_started
       postgres:
         condition: service_healthy
     volumes:
