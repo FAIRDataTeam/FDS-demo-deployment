@@ -24,11 +24,9 @@ To configure keycloak, follow these steps, making sure the values match those de
 4. in this realm, under "Clients", create a client with *Client ID* `trainhandler-client` (matching `NUXT_PUBLIC_KEYCLOAK_CLIENT_ID`)
 5. after saving the client, edit again to set both *Valid redirect URIs* and *Valid post logout redirect URIs* to `http://localhost:3000/*`
 6. under "Realm roles" create a new role with name `user` (expected by trainhandler-server)
-7. under "Groups" create a new group with name `users` (arbitrary)
-8. select the `users` group, select the *Role mapping* tab, and assign the `user` role
-9. under "Users", create a new user with *Username* `test` (arbitrary)
-10. select the user's *Credentials* tab, and set a password
-11. select the user's *Groups* tab, and join the `users` group
+7. under "Users", create a new user with *Username* `test` (arbitrary)
+8. select the user's *Credentials* tab and set a password (disable "Temporary", for convenience)
+9. select the user's *Role mapping* tab and assign the `user` role
 
 Now we can visit http://localhost:3000 and log in using the `test` user.
 
