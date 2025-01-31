@@ -26,8 +26,10 @@ spring:
     username: postgres
     password: password
 
+# NOTE we can also override this using an env variable, e.g.
+# LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB=TRACE
 logging:
   level:
     org:
       springframework:
-        web: DEBUG
+        web: INFO
