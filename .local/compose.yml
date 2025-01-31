@@ -94,7 +94,7 @@ services:
       POSTGRES_PASSWORD: password
     healthcheck:
       # https://www.postgresql.org/docs/current/app-pg-isready.html
-      test: pg_isready --dbname=postgres || exit 1
+      test: pg_isready --dbname=postgres --username=postgres || exit 1
       start_period: 30s
       start_interval: 3s
 
