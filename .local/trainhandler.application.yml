@@ -16,7 +16,7 @@ spring:
     password: password
 
 keycloak:
-  enabled: true
+  enabled: false
   realm: fdt
   resource: trainhandler-api
   auth-server-url: http://keycloak:8085
