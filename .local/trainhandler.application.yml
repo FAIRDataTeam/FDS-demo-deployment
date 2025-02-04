@@ -2,8 +2,9 @@ dispatcher:
   polling:
     timeout: PT2M
   dispatch:
-    # URL to root endpoint of TrainHandler API (for callbacks)
-    root: http://localhost:8080
+    # URL to root endpoint of trainhandler-server
+    # (used to construct callback urls that fds then uses to POST event updates and artifacts)
+    root: http://trainhandler-server:8080
     # Can set to lower value for faster processing
     initDelay: PT30S
     interval: PT30S
