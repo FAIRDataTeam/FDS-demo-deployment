@@ -8,7 +8,7 @@ services:
     depends_on:
       - trainhandler-server
     environment:
-      NUXT_PUBLIC_API_URL: http://localhost:8080
+      NUXT_PUBLIC_API_URL: http://localhost:8082
       NUXT_PUBLIC_KEYCLOAK_URL: http://localhost:8085
       NUXT_PUBLIC_KEYCLOAK_REALM: fdt
       NUXT_PUBLIC_KEYCLOAK_CLIENT_ID: trainhandler-client
@@ -17,7 +17,7 @@ services:
   trainhandler-server:
     image: fairdata/trainhandler-server:develop
     ports:
-      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:8082:8080"
     depends_on:
       keycloak:
         # service_healthy would be preferable, but is complicated because default keycloak image has no curl
