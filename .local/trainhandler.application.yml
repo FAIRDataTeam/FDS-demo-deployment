@@ -1,0 +1,30 @@
+dispatcher:
+  polling:
+    timeout: PT2M
+  dispatch:
+    # URL to root endpoint of trainhandler-server
+    # (used to construct callback urls that fds then uses to POST event updates and artifacts)
+    root: http://trainhandler-server:8080
+    # Can set to lower value for faster processing
+    initDelay: PT30S
+    interval: PT30S
+
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres/train_handler
+    username: postgres
+    password: password
+
+keycloak:
+  enabled: false
+  realm: fdt
+  resource: trainhandler-api
+  auth-server-url: http://keycloak:8085
+  public-client: true
+  bearer-only: true
+
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO

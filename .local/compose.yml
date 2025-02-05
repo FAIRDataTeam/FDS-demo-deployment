@@ -1,0 +1,102 @@
+name: fds-local
+services:
+  trainhandler-client:
+    image: fairdata/trainhandler-client:develop
+    ports:
+      # bound to 127.0.0.1 (localhost) to prevent exposing to public internet
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - trainhandler-server
+    environment:
+      NUXT_PUBLIC_API_URL: http://localhost:8082
+      NUXT_PUBLIC_KEYCLOAK_URL: http://localhost:8085
+      NUXT_PUBLIC_KEYCLOAK_REALM: fdt
+      NUXT_PUBLIC_KEYCLOAK_CLIENT_ID: trainhandler-client
+     # NUXT_PUBLIC_KEYCLOAK_DISABLED: true
+
+  trainhandler-server:
+    image: fairdata/trainhandler-server:develop
+    ports:
+      - "127.0.0.1:8082:8080"
+    depends_on:
+      keycloak:
+        # service_healthy would be preferable, but is complicated because default keycloak image has no curl
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./trainhandler.application.yml:/app/application.yml:ro
+    environment:
+      # use TRACE if log messages are truncated
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB: DEBUG
+
+  fds:
+    image: fairdata/fairdatastation:develop
+    # the trainhandler client requires hostname with dot and top level domain (station uri field hostname with container port)
+    hostname: fds.local
+    ports:
+      # <host>:<container>
+      - "127.0.0.1:8081:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./fds.application.yml:/app/application.yml:ro
+    environment:
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_WEB: DEBUG
+
+  keycloak:
+    # https://www.keycloak.org/getting-started/getting-started-docker
+    # todo: latest image is keycloak 26, but 25 and 26 cause a redirect loop, for some reason...
+    image: quay.io/keycloak/keycloak:24.0
+    # beware: do not use `start-dev` in production (use `start` instead)
+    command:
+      - start-dev
+      - --import-realm
+    ports:
+      - "127.0.0.1:8085:8085"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # todo: for keycloak 25 and up, use the following, instead of KEYCLOAK_ADMIN*:
+      #  KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      #  KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_SCHEMA: public
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_PORT: 5432
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: password
+      # todo: for keycloak 25 and up, KC_HOSTNAME should be http://localhost:8085
+      KC_HOSTNAME: localhost:8085
+      KC_PROXY_HEADERS: xforwarded  # or `forwarded|xforwarded`?
+      KC_HTTP_ENABLED: true
+      KC_HTTP_PORT: 8085
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_HOSTNAME_STRICT: false
+    volumes:
+      - ./realm.json:/opt/keycloak/data/import/realm.json:ro
+
+  postgres:
+    image: postgres:17.2
+    ports:
+      - "127.0.0.1:54321:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/00-init.sql
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      # https://www.postgresql.org/docs/current/app-pg-isready.html
+      test: pg_isready --dbname=postgres --username=postgres || exit 1
+      start_period: 30s
+      start_interval: 3s
+
+volumes:
+  pgdata:
