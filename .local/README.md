@@ -17,6 +17,10 @@ Now we can visit http://localhost:3000 and log in using the `test` user (usernam
 Note that keycloak may take some time to initialize, so in case of errors, check if it is ready.
 A docker compose healthcheck would be convenient here, but that is slightly complicated by [restrictions] in the default keycloak image.
 
+## How to use
+
+Basic usage instructions can be found [here].
+
 ## Manual configuration of keycloak
 
 If necessary, it is also possible to [configure keycloak] manually, following the steps below.
@@ -39,3 +43,4 @@ Note that it is also possible to disable keycloak by setting `NUXT_PUBLIC_KEYCLO
 [restrictions]: https://www.keycloak.org/server/health#_healthcheck
 [keycloak examples]: https://github.com/keycloak/keycloak-quickstarts/tree/latest/spring/rest-authz-resource-server
 [api spec]: https://www.keycloak.org/docs-api/26.0.8/rest-api//index.html#models
+[here]: https://github.com/FAIRDataTeam/FDS-demo-deployment/pull/1#issuecomment-2634258716
